@@ -1764,6 +1764,19 @@
 /* } */
    
    
+/* Ajuste para deixar os ícones do cabeçalho mais finos */
+#mainHeader i {
+    font-weight: 400 !important; /* Força um peso de fonte mais leve */
+    -webkit-text-stroke: 0.1px transparent; /* Remove qualquer contorno que engrosse o ícone */
+    font-size: 1.1rem; /* Ajuste leve no tamanho se necessário */
+}
+
+/* Caso queira que fiquem ainda mais finos, podemos simular isso com opacidade */
+#mainHeader button i {
+    opacity: 0.85; 
+}
+
+
    </style>
 </head>
 <body>
