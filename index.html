@@ -1737,7 +1737,34 @@
             }
         }
 
-    </style>
+   /* Ajuste para imagens dentro do carrossel */
+.carousel-item img {
+    width: 100%;
+    height: 100%; /* Garante que a imagem tente preencher a altura do contêiner */
+    object-fit: contain; /* Garante que a imagem inteira seja visível, sem cortes, mas pode deixar barras */
+    /* Se preferir que a imagem preencha todo o espaço, mesmo que corte um pouco, use: */
+    /* object-fit: cover; */
+}
+
+/* Ajuste para imagens grandes de produto */
+#largeProductImage img {
+    width: 100%;
+    height: auto; /* Mantém a proporção da imagem */
+    object-fit: contain; /* Garante que a imagem inteira seja visível, sem cortes */
+    /* Se preferir que a imagem preencha todo o espaço, mesmo que corte um pouco, e o contêiner pai tiver uma altura definida, use: */
+    /* object-fit: cover; */
+}
+
+/* Adicionalmente, verifique se o contêiner pai das imagens grandes de produto tem uma altura definida, por exemplo: */
+/* #largeProductImage { */
+/*     height: 300px; /* Exemplo: defina uma altura fixa ou mínima */
+/*     display: flex; */
+/*     align-items: center; */
+/*     justify-content: center; */
+/* } */
+   
+   
+   </style>
 </head>
 <body>
     <!-- TELA DE ENTRADA (SPLASH SCREEN) -->
