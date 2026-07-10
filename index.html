@@ -1763,24 +1763,6 @@
 /*     justify-content: center; */
 /* } */
    
-   
-/* Técnica para forçar ícones a ficarem mais finos */
-#mainHeader i.fas {
-    display: inline-block;
-    -webkit-text-stroke: 1px #FFD700; /* CRUCIAL: Use a mesma cor do fundo do seu header (Amarelo) */
-    paint-order: stroke fill;
-}
-
-/* Ajuste específico para quando o header está transparente (no topo) */
-header:not(.scrolled) i.fas {
-    -webkit-text-stroke: 1px #ffffff; /* Use a cor do fundo quando transparente (Branco) */
-}
-
-/* Ajuste para o ícone do WhatsApp que é uma classe diferente */
-#mainHeader i.fab {
-    font-weight: 400 !important;
-    -webkit-text-stroke: 0 !important; /* Remove o stroke grosso que estava no original */
-}
 
    </style>
 </head>
